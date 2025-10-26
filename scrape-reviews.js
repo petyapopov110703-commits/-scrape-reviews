@@ -1,4 +1,4 @@
-import { chromium } from 'playwright';
+import puppeteer from 'puppeteer-core'; // Импортируем puppeteer-core
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -12,38 +12,25 @@ if (!fs.existsSync(REVIEWS_DIR)) {
   fs.mkdirSync(REVIEWS_DIR, { recursive: true });
 }
 
-// Функция для скачивания аватарок (временно закомментирована)
-// async function downloadImage(url, filename) {
-//   if (!url) return null;
-//   try {
-//     const response = await fetch(url);
-//     if (!response.ok) throw new Error(`Failed to fetch image: ${response.statusText}`);
-//     const buffer = Buffer.from(await response.arrayBuffer());
-//     const filepath = path.join(AVATARS_DIR, filename);
-//     await fs.promises.writeFile(filepath, buffer);
-//     return filepath;
-//   } catch (e) {
-//     console.error('Error downloading avatar:', e.message);
-//     return null;
-//   }
-// }
-console.log('Проверяем, что есть в кэше Playwright...');
-const cacheDir = '/opt/render/.cache/ms-playwright/'; // <-- Объявите переменную
-try {
-  const files = fs.readdirSync(cacheDir);
-  console.log('Папки в кэше Playwright:', files);
-} catch (e) {
-  console.log('Ошибка доступа к кэшу:', e.message);
-}
 async function scrapeReviews() {
-   const browser = await chromium.launch({
-    headless: true // ← без executablePath
+  // Запускаем браузер через puppeteer-core
+  const browser = await puppeteer.launch({
+    executablePath: '/usr/bin/chromium-browser', // Путь к системному Chromium
+    headless: true, // Обязательно true на сервере
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-gpu'
+    ]
   });
-  const context = await browser.newContext({
-    viewport: { width: 1920, height: 1080 },
-    userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
-  });
-  const page = await context.newPage();
+
+  const page = await browser.newPage();
+
+  await page.setViewport({ width: 1920, height: 1080 });
+
+  // Устанавливаем User-Agent
+  await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36');
 
   await page.goto('https://travel.yandex.ru/hotels/nizhny-novgorod-oblast/seraphim-grad/?adults=2&checkinDate=2025-10-03&checkoutDate=2025-10-06&childrenAges=&searchPagePollingId=70a7e05752d9c15a97f175e268c7e69f-0-newsearch&seed=portal-hotels-search', {
     waitUntil: 'domcontentloaded',
@@ -124,7 +111,7 @@ async function scrapeReviews() {
 
   // Собираем результаты без скачивания аватарок
   const results = filteredReviews.map(review => ({
-    ...review,
+    ...review
     // avatarPath: null // не сохраняем локальный путь
   }));
 
@@ -154,9 +141,4 @@ async function runScraping() {
 runScraping();
 
 // Устанавливаем интервал для автоматического обновления
-
 setInterval(runScraping, REFRESH_INTERVAL_MS);
-
-
-
-
