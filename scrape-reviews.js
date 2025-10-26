@@ -1,4 +1,4 @@
-import puppeteer from 'puppeteer'; // Импортируем puppeteer-core
+import puppeteer from 'puppeteer'; // Используем puppeteer, а не puppeteer-core
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -13,7 +13,6 @@ if (!fs.existsSync(REVIEWS_DIR)) {
 }
 
 async function scrapeReviews() {
-  // Запускаем браузер через puppeteer-core
   // На некоторых хостингах (например, Render) могут потребоваться аргументы для headless Chrome
   const browser = await puppeteer.launch({
     headless: 'new', // Используем новый headless режим
@@ -30,6 +29,8 @@ async function scrapeReviews() {
 
   // Устанавливаем User-Agent, чтобы не выглядеть как бот
   await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
+
+  await page.setViewport({ width: 1920, height: 1080 });
 
   await page.goto('https://travel.yandex.ru/hotels/nizhny-novgorod-oblast/seraphim-grad/?adults=2&checkinDate=2025-10-03&checkoutDate=2025-10-06&childrenAges=&searchPagePollingId=70a7e05752d9c15a97f175e268c7e69f-0-newsearch&seed=portal-hotels-search', {
     waitUntil: 'domcontentloaded',
@@ -141,4 +142,3 @@ runScraping();
 
 // Устанавливаем интервал для автоматического обновления
 setInterval(runScraping, REFRESH_INTERVAL_MS);
-
