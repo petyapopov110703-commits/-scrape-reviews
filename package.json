@@ -2,6 +2,7 @@
   "name": "scrape-reviews",
   "version": "1.0.0",
   "description": "",
+   "type": "module",
   "main": "scrape-reviews.js",
   "scripts": {
     "start": "node scrape-reviews.js"
