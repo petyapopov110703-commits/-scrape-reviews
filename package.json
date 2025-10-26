@@ -1,12 +1,12 @@
 {
   "name": "scrape-reviews",
   "version": "1.0.0",
-  "type": "module",
+  "description": "",
+  "main": "scrape-reviews.js",
   "scripts": {
-    "start": "node scrape-reviews.js",
-    "install-browsers": "npx playwright install chromium"
+    "start": "node scrape-reviews.js"
   },
   "dependencies": {
-    "playwright": "^1.56.1"
+    "puppeteer-core": "^24.25.0"
   }
 }
