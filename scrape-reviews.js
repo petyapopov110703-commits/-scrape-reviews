@@ -27,7 +27,16 @@ if (!fs.existsSync(REVIEWS_DIR)) {
 //     return null;
 //   }
 // }
-
+console.log('Проверяем, что есть в кэше Playwright...');
+const fs = require('fs');
+const path = require('path');
+const cacheDir = '/opt/render/.cache/ms-playwright/';
+try {
+  const files = fs.readdirSync(cacheDir);
+  console.log('Папки в кэше Playwright:', files);
+} catch (e) {
+  console.log('Ошибка доступа к кэшу:', e.message);
+}
 async function scrapeReviews() {
    const browser = await chromium.launch({
     headless: true // ← без executablePath
@@ -149,5 +158,6 @@ runScraping();
 // Устанавливаем интервал для автоматического обновления
 
 setInterval(runScraping, REFRESH_INTERVAL_MS);
+
 
 
