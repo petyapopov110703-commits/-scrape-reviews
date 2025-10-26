@@ -28,9 +28,6 @@ if (!fs.existsSync(REVIEWS_DIR)) {
 //   }
 // }
 console.log('Проверяем, что есть в кэше Playwright...');
-const fs = require('fs');
-const path = require('path');
-const cacheDir = '/opt/render/.cache/ms-playwright/';
 try {
   const files = fs.readdirSync(cacheDir);
   console.log('Папки в кэше Playwright:', files);
