@@ -7,6 +7,6 @@
     "start": "node scrape-reviews.js"
   },
   "dependencies": {
-    "puppeteer-core": "^24.25.0"
+    "puppeteer": "^24.25.0"
   }
 }
