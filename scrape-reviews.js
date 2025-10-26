@@ -28,6 +28,7 @@ if (!fs.existsSync(REVIEWS_DIR)) {
 //   }
 // }
 console.log('Проверяем, что есть в кэше Playwright...');
+const cacheDir = '/opt/render/.cache/ms-playwright/'; // <-- Объявите переменную
 try {
   const files = fs.readdirSync(cacheDir);
   console.log('Папки в кэше Playwright:', files);
@@ -155,6 +156,7 @@ runScraping();
 // Устанавливаем интервал для автоматического обновления
 
 setInterval(runScraping, REFRESH_INTERVAL_MS);
+
 
 
 
