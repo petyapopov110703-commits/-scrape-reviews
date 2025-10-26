@@ -30,8 +30,8 @@ if (!fs.existsSync(REVIEWS_DIR)) {
 
 async function scrapeReviews() {
    const browser = await chromium.launch({
-  headless: true
-});
+    headless: true // ← без executablePath
+  });
   const context = await browser.newContext({
     viewport: { width: 1920, height: 1080 },
     userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
@@ -149,4 +149,5 @@ runScraping();
 // Устанавливаем интервал для автоматического обновления
 
 setInterval(runScraping, REFRESH_INTERVAL_MS);
+
 
