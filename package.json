@@ -6,6 +6,9 @@
   "scripts": {
     "start": "node scrape-reviews.js"
   },
+    "scripts": {
+    "install-browsers": "npx playwright install chromium"
+  }
   "dependencies": {
     "playwright": "^1.56.1"
   }
