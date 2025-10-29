@@ -8,6 +8,6 @@
   },
   "dependencies": {
     "puppeteer-core": "^24.4.0",
-    "@sparticuz/chromium": "^132.0.1"
+    "@sparticuz/chromium": "^141.0.0"
   }
 }
