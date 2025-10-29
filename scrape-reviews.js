@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer-core';
-import chromium from '@sparticuz/chromium';
+import chromium from 'chrome-aws-lambda';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -25,8 +25,8 @@ async function scrapeReviews() {
       '--disable-software-rasterizer',
       '--disable-web-security'
     ],
-    executablePath: await chromium.executablePath(), // ✅ Указываем корректный путь
-    headless: chromium.headless, // ✅ Используем рекомендуемый режим
+    executablePath: await chromium.executablePath,
+    headless: true,
   });
   const page = await browser.newPage();
 
@@ -145,4 +145,5 @@ runScraping();
 
 // Устанавливаем интервал для автоматического обновления
 setInterval(runScraping, REFRESH_INTERVAL_MS);
+
 
