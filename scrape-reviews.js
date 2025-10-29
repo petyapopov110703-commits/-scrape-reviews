@@ -1,5 +1,4 @@
-import puppeteer from 'puppeteer-core';
-import chromium from 'chrome-aws-lambda';
+import puppeteer from 'puppeteer';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -16,17 +15,16 @@ if (!fs.existsSync(REVIEWS_DIR)) {
 async function scrapeReviews() {
   // На некоторых хостингах (например, Render) могут потребоваться аргументы для headless Chrome
   const browser = await puppeteer.launch({
+    headless: true,
     args: [
-      ...chromium.args,
       '--no-sandbox',
       '--disable-setuid-sandbox',
       '--disable-gpu',
       '--disable-dev-shm-usage',
       '--disable-software-rasterizer',
-      '--disable-web-security'
-    ],
-    executablePath: await chromium.executablePath,
-    headless: true,
+      '--disable-web-security',
+      '--single-process'
+    ]
   });
   const page = await browser.newPage();
 
@@ -145,5 +143,6 @@ runScraping();
 
 // Устанавливаем интервал для автоматического обновления
 setInterval(runScraping, REFRESH_INTERVAL_MS);
+
 
 
