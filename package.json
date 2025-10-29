@@ -1,13 +1,12 @@
 {
   "name": "scrape-reviews",
   "version": "1.0.0",
-  "type": "module",
+  "type": "module", 
   "main": "scrape-reviews.js",
   "scripts": {
     "start": "node scrape-reviews.js"
   },
   "dependencies": {
-    "puppeteer-core": "^21.5.2",
-    "chrome-aws-lambda": "^10.1.0"
+    "puppeteer": "^21.5.2"
   }
 }
