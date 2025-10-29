@@ -7,7 +7,7 @@
     "start": "node scrape-reviews.js"
   },
   "dependencies": {
-    "puppeteer-core": "^24.4.0",
-    "@sparticuz/chromium": "^141.0.0"
+    "puppeteer-core": "^21.5.2",
+    "chrome-aws-lambda": "^10.1.0"
   }
 }
